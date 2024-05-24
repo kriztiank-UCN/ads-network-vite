@@ -1,6 +1,11 @@
-import { Link } from "react-router-dom"
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../context/auth";
 
 const Navbar = () => {
+    // destructure the user object from the AuthContext
+    const { user } = useContext(AuthContext)
+
   return (
     <nav className="navbar navbar-expand-md bg-light navbar-light sticky-top shadow-sm">
       <div className="container">
@@ -20,16 +25,26 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link" to="/auth/register">
-                Register
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/auth/login">
-                Login
-              </Link>
-            </li>
+          {/* if the user is logged in, display Profile & logout links */}
+            {user ? (
+              <>
+                <button className="btn btn-danger btn-sm">Log out</button>
+              </>
+            ) : (
+              <>
+                {/* if the user is not logged in, display Register & Login links */}
+                <li className="nav-item">
+                  <Link className="nav-link" to="/auth/register">
+                    Register
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/auth/login">
+                    Login
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>
