@@ -79,8 +79,6 @@ const Register = () => {
           onChange={handleChange}
         />
       </div>
-      {/* display error message if error is not null */}
-      {error ? <p className="text-center text-danger">{error}</p> : null}
       <div className="mb-3">
         <label htmlFor="email" className="form-label">
           Email
@@ -117,6 +115,8 @@ const Register = () => {
           onChange={handleChange}
         />
       </div>
+      {/* display error message if error is not null */}
+      {error ? <p className="text-center text-danger">{error}</p> : null}
       <div className="text-center mb-3">
         {/* disable button when loading is true */}
         <button className="btn btn-secondary btn-sm" disabled={loading}>

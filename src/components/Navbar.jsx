@@ -11,7 +11,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleSignout = async () => {
-    // update user doc
+    // update users doc
     await updateDoc(doc(db, "users", user.uid), {
       isOnline: false,
     });
