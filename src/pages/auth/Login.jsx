@@ -2,7 +2,7 @@ import { useState } from "react"
 import { auth, db } from "../../firebaseConfig"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { doc, updateDoc } from "firebase/firestore"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 
 const Login = () => {
   // setting multiple default state values, use with e.target.name attribute
@@ -86,6 +86,11 @@ const Login = () => {
         <button className="btn btn-secondary btn-sm" disabled={loading}>
           Login
         </button>
+      </div>
+      <div className="text-center mb-3">
+        <small>
+          <Link to="/auth/forgot-password">Forgot Password</Link>
+        </small>
       </div>
     </form>
   )
