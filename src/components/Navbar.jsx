@@ -1,25 +1,25 @@
-import { signOut } from "firebase/auth";
-import { doc, updateDoc } from "firebase/firestore";
-import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/auth";
-import { auth, db } from "../firebaseConfig";
+import { signOut } from "firebase/auth"
+import { doc, updateDoc } from "firebase/firestore"
+import { useContext } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { AuthContext } from "../context/auth"
+import { auth, db } from "../firebaseConfig"
 
 const Navbar = () => {
   // destructure the user object from the AuthContext
   const { user } = useContext(AuthContext)
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleSignout = async () => {
     // update users doc
     await updateDoc(doc(db, "users", user.uid), {
       isOnline: false,
-    });
+    })
     // logout
     await signOut(auth)
     // navigate to login
-    navigate("/auth/login");
-  };
+    navigate("/auth/login")
+  }
 
   return (
     <nav className="navbar navbar-expand-md bg-light navbar-light sticky-top shadow-sm">
@@ -43,6 +43,12 @@ const Navbar = () => {
             {/* if the user is logged in, display Profile & logout links */}
             {user ? (
               <>
+                <li className="nav-item">
+                  {/* get the user object from the AuthContext */}
+                  <Link className="nav-link" to={`/profile/${user.uid}`}>
+                    Profile
+                  </Link>
+                </li>
                 <button className="btn btn-danger btn-sm" onClick={handleSignout}>
                   Logout
                 </button>

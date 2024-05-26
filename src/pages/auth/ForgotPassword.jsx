@@ -2,8 +2,7 @@ import { useState } from "react"
 import { auth } from "../../firebaseConfig"
 import { sendPasswordResetEmail } from "firebase/auth"
 
-// ForgotPassword component will be used to reset the password of the user.
-// here we will ask for the email of the user and send him the reset link.
+// ForgotPassword component will be used to reset the password of the user, here we will ask for the email of the user and send him the reset link.
 
 const ForgotPassword = () => {
   // setting individual state variables and default values
