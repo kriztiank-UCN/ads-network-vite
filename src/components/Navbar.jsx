@@ -49,6 +49,11 @@ const Navbar = () => {
                     Profile
                   </Link>
                 </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to={`/sell`}>
+                    Sell
+                  </Link>
+                </li>
                 <button className="btn btn-danger btn-sm" onClick={handleSignout}>
                   Logout
                 </button>

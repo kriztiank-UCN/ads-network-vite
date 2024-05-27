@@ -5,8 +5,10 @@ import Register from "./pages/auth/Register"
 import Login from "./pages/auth/Login"
 import ForgotPassword from "./pages/auth/ForgotPassword"
 import Home from "./pages/Home"
-import Profile from "./pages/Profile";
+import Profile from "./pages/Profile"
 import AuthProvider from "./context/auth"
+import PrivateRoute from "./components/PrivateRoute"
+import Sell from "./pages/Sell"
 
 function App() {
   return (
@@ -15,6 +17,11 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
+          {/* Outlet renders the child route's element */}
+          <Route element={<PrivateRoute />}>
+            {/* Child route */}
+            <Route path="/sell" element={<Sell />} />
+          </Route>
           <Route path="/auth/register" element={<Register />} />
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/forgot-password" element={<ForgotPassword />} />
