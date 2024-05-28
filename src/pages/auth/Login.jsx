@@ -44,7 +44,7 @@ const Login = () => {
         error: "",
         loading: false,
       })
-      // redirect to home page, replace: true will remove the history entry so the user can't go back to the register page
+      // redirect to home page, replace: true will remove the history entry so the user can't go back to the login page
       navigate("/", { replace: true })
       // error handling ...values will return an object with the current values state, the error property is set to the error message.
     } catch (error) {
