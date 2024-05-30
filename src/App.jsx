@@ -9,7 +9,8 @@ import Profile from "./pages/Profile"
 import AuthProvider from "./context/auth"
 import PrivateRoute from "./components/PrivateRoute"
 import Sell from "./pages/Sell"
-import MyFavorites from "./pages/MyFavorites";
+import MyFavorites from "./pages/MyFavorites"
+import Ad from "./pages/Ad"
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/forgot-password" element={<ForgotPassword />} />
           <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/:category/:id" element={<Ad />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </BrowserRouter>
