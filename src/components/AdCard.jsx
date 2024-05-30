@@ -48,7 +48,7 @@ const AdCard = ({ ad }) => {
           <p className="card-text">
             {ad.location} - {ad.publishedAt.toDate().toDateString()}
             <br />
-            Price. {Number(ad.price).toLocaleString()}
+            DKR. {Number(ad.price).toLocaleString()}
           </p>
         </Link>
       </div>
