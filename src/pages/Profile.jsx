@@ -4,7 +4,8 @@ import {
   collection,
   doc,
   getDocs,
-  onSnapshot,
+  // moved to useSnapshot.jsx
+  // onSnapshot,
   orderBy,
   query,
   updateDoc,
@@ -15,6 +16,7 @@ import { db, storage, auth } from "../firebaseConfig"
 import { FaUserAlt, FaCloudUploadAlt } from "react-icons/fa"
 import moment from "moment"
 import AdCard from "../components/AdCard"
+import useSnapshot from "../utils/useSnapshot"
 
 // The profile page we will send request to Firestore and get data from the users collection of particular document which is the ID current user. We will use useParams to get the ID from the URL.
 
@@ -26,16 +28,22 @@ const Profile = () => {
   // Get the ID from the URL
   const { id } = useParams()
   // create state variables and set default values
-  const [user, setUser] = useState()
   const [img, setImg] = useState("")
   const [ads, setAds] = useState([])
+  // moved to useSnapshot.jsx
+  // const [user, setUser] = useState()
 
+  // use useSnapshot custom hook
+  // renamed val to user with aliasing
+  const { val: user } = useSnapshot("users", id)
+
+  // moved to useSnapshot.jsx
   // use onSnapshot if you expect data to be changed and you would like to update the UI as well because it's a real time listener. If you only want to get the data once, use getDoc.
-  const getUser = async () => {
+  /*   const getUser = async () => {
     const unsub = onSnapshot(doc(db, "users", id), querySnapshot => setUser(querySnapshot.data()))
 
     return () => unsub()
-  }
+  } */
 
   // only authenticated, and the person who is viewing his own profile will be able to call this function.
   const uploadImage = async () => {
@@ -76,18 +84,19 @@ const Profile = () => {
   }
 
   useEffect(() => {
-    getUser()
+    // moved to useSnapshot.jsx
+    // getUser()
     // if img exists, call the uploadImage function
     if (img) {
       uploadImage()
     }
-  getAds()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    getAds()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [img])
 
   // console.log(user)
   // console.log(img)
-  console.log(ads)
+  // console.log(ads)
 
   const deletePhoto = async () => {
     const confirm = window.confirm("Delete photo permanently?")
@@ -149,13 +158,9 @@ const Profile = () => {
       <div className="col-sm-10 col-md-9">
         <h3>{user.name}</h3>
         <hr />
-        {ads.length ? (
-          <h4>Published Ads</h4>
-        ) : (
-          <h4>There are no ads published by this user</h4>
-        )}
+        {ads.length ? <h4>Published Ads</h4> : <h4>There are no ads published by this user</h4>}
         <div className="row">
-          {ads?.map((ad) => (
+          {ads?.map(ad => (
             <div key={ad.id} className="col-sm-6 col-md-4 mb-3">
               <AdCard ad={ad} />
             </div>

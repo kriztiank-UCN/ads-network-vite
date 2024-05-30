@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../firebaseConfig'
-import { AiOutlineHeart } from 'react-icons/ai'
-import { FaTrashAlt } from 'react-icons/fa'
+import { auth, db } from "../firebaseConfig";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { FaTrashAlt } from "react-icons/fa";
+import useSnapshot from "../utils/useSnapshot";
+import { toggleFavorite } from "../utils/fav";
 
 const Ad = () => {
   const { id } = useParams()
   const [ad, setAd] = useState()
   const [idx, setIdx] = useState(0)
+
+  const { val } = useSnapshot("favorites", id);
 
   const getAd = async () => {
     const docRef = doc(db, 'ads', id)
@@ -61,7 +65,19 @@ const Ad = () => {
             <div className='card-body'>
               <div className='d-flex justify-content-between align-items-center'>
                 <h5 className='card-title'>Price. {Number(ad.price).toLocaleString()}</h5>
-                <AiOutlineHeart size={30} />
+                {val?.users?.includes(auth.currentUser?.uid) ? (
+                  <AiFillHeart
+                    size={30}
+                    onClick={() => toggleFavorite(val.users, id)}
+                    className="text-danger"
+                  />
+                ) : (
+                  <AiOutlineHeart
+                    size={30}
+                    onClick={() => toggleFavorite(val.users, id)}
+                    className="text-danger"
+                  />
+                )}
               </div>
               <h6 className='card-subtitle mb-2'>{ad.title}</h6>
               <div className='d-flex justify-content-between'>
