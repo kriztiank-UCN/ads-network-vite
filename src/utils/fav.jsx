@@ -16,4 +16,3 @@ export const toggleFavorite = async (users, adId) => {
       : users.concat(auth.currentUser.uid),
   })
 }
-

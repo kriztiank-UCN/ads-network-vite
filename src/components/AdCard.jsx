@@ -3,7 +3,8 @@ import { Link } from "react-router-dom"
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 import { auth } from "../firebaseConfig"
 import useSnapshot from "../utils/useSnapshot"
-import { toggleFavorite } from "../utils/fav";
+import { toggleFavorite } from "../utils/fav"
+import Sold from "../components/Sold"
 
 // recieve ad as a prop from parent component and destructure it
 const AdCard = ({ ad }) => {
@@ -13,7 +14,9 @@ const AdCard = ({ ad }) => {
   const adLink = `/${ad.category.toLowerCase()}/${ad.id}`
 
   return (
-    <div className="card">
+    <div className="card relative">
+      {/* if the ad is sold, we will show a Sold component */}
+      {ad.isSold && <Sold />}
       <Link to={adLink}>
         <img
           src={ad.images[0].url}
