@@ -44,6 +44,11 @@ const Navbar = () => {
             {user ? (
               <>
                 <li className="nav-item">
+                  <Link className="nav-link" to="/chat">
+                    Chat
+                  </Link>
+                </li>
+                <li className="nav-item">
                   {/* get the user object from the AuthContext */}
                   <Link className="nav-link" to={`/profile/${user.uid}`}>
                     Profile

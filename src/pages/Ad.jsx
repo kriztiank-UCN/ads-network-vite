@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react"
-import { useParams, useNavigate, Link, useLocation } from "react-router-dom"
-import { deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore"
-import { auth, db, storage } from "../firebaseConfig"
-import { ref, deleteObject } from "firebase/storage"
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
-import { FaTrashAlt, FaUserCircle } from "react-icons/fa"
-import { FiPhoneCall } from "react-icons/fi"
-import useSnapshot from "../utils/useSnapshot"
-import { toggleFavorite } from "../utils/fav"
-import Sold from "../components/Sold"
+import { useState, useEffect } from "react";
+import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
+import { deleteDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { auth, db, storage } from "../firebaseConfig";
+import { ref, deleteObject } from "firebase/storage";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { FaTrashAlt, FaUserCircle } from "react-icons/fa";
+import { FiPhoneCall } from "react-icons/fi";
+import useSnapshot from "../utils/useSnapshot";
+import { toggleFavorite } from "../utils/fav";
+import Sold from "../components/Sold";
 
 const Ad = () => {
   const { id } = useParams()
@@ -66,10 +66,25 @@ const Ad = () => {
     getAd()
   }
 
+  const createChatroom = async () => {
+    const loggedInUser = auth.currentUser.uid;
+    const chatId =
+      loggedInUser > ad.postedBy
+        ? `${loggedInUser}.${ad.postedBy}.${id}`
+        : `${ad.postedBy}.${loggedInUser}.${id}`;
+
+    await setDoc(doc(db, "messages", chatId), {
+      ad: id,
+      users: [loggedInUser, ad.postedBy],
+    });
+
+    navigate("/chat", { state: { ad } });
+  };
+
   return ad ? (
     <div className="mt-5 container">
       <div className="row">
-        <div id="carouselExample" className="carousel slide col-md-8">
+        <div id="carouselExample" className="carousel slide col-md-8 position-relative">
           {/* if the ad is sold, we will show a Sold component */}
           {ad.isSold && <Sold singleAd={true} />}
           <div className="carousel-inner">
@@ -177,7 +192,9 @@ const Ad = () => {
                   <br />
                   {/* this button should only be available to the logged in user who is not the creator of this ad. */}
                   {ad.postedBy !== auth.currentUser?.uid && (
-                    <button className="btn btn-secondary btn-sm mb-3">Chat With Seller</button>
+                    <button className="btn btn-secondary btn-sm mb-3"
+                    onClick={createChatroom}
+                    >Chat With Seller</button>
                   )}
                 </div>
               ) : (

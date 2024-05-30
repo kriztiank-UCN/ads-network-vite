@@ -14,7 +14,7 @@ const AdCard = ({ ad }) => {
   const adLink = `/${ad.category.toLowerCase()}/${ad.id}`
 
   return (
-    <div className="card relative">
+    <div className="card position-relative">
       {/* if the ad is sold, we will show a Sold component */}
       {ad.isSold && <Sold />}
       <Link to={adLink}>
