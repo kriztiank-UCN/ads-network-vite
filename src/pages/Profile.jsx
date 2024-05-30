@@ -1,10 +1,20 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { doc, onSnapshot, updateDoc } from "firebase/firestore"
+import {
+  collection,
+  doc,
+  getDocs,
+  onSnapshot,
+  orderBy,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore"
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage"
 import { db, storage, auth } from "../firebaseConfig"
 import { FaUserAlt, FaCloudUploadAlt } from "react-icons/fa"
 import moment from "moment"
+import AdCard from "../components/AdCard"
 
 // The profile page we will send request to Firestore and get data from the users collection of particular document which is the ID current user. We will use useParams to get the ID from the URL.
 
@@ -18,6 +28,7 @@ const Profile = () => {
   // create state variables and set default values
   const [user, setUser] = useState()
   const [img, setImg] = useState("")
+  const [ads, setAds] = useState([])
 
   // use onSnapshot if you expect data to be changed and you would like to update the UI as well because it's a real time listener. If you only want to get the data once, use getDoc.
   const getUser = async () => {
@@ -50,17 +61,33 @@ const Profile = () => {
     setImg("")
   }
 
+  const getAds = async () => {
+    // create collection reference
+    const adsRef = collection(db, "ads")
+    // execute query
+    const q = query(adsRef, where("postedBy", "==", id), orderBy("publishedAt", "desc"))
+    // get data from firestore
+    const docs = await getDocs(q)
+    let ads = []
+    docs.forEach(doc => {
+      ads.push({ ...doc.data(), id: doc.id })
+    })
+    setAds(ads)
+  }
+
   useEffect(() => {
     getUser()
     // if img exists, call the uploadImage function
     if (img) {
       uploadImage()
     }
+  getAds()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [img])
 
   // console.log(user)
   // console.log(img)
+  console.log(ads)
 
   const deletePhoto = async () => {
     const confirm = window.confirm("Delete photo permanently?")
@@ -122,6 +149,18 @@ const Profile = () => {
       <div className="col-sm-10 col-md-9">
         <h3>{user.name}</h3>
         <hr />
+        {ads.length ? (
+          <h4>Published Ads</h4>
+        ) : (
+          <h4>There are no ads published by this user</h4>
+        )}
+        <div className="row">
+          {ads?.map((ad) => (
+            <div key={ad.id} className="col-sm-6 col-md-4 mb-3">
+              <AdCard ad={ad} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   ) : null

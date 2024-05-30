@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom"
 
 // define categories and locations for the select dropdown
 const categories = ["Vehicle", "Property", "Electronics"]
-const locations = ["København og omegn", "Aarhus", "Odense", "Aalborg"]
+const locations = ["København", "Aarhus", "Odense", "Aalborg"]
 
 const Sell = () => {
   // useNavigate to redirect to home page
