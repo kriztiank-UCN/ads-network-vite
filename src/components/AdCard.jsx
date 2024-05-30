@@ -15,6 +15,7 @@ const AdCard = ({ ad }) => {
     const docRef = doc(db, "favorites", ad.id)
     const unsub = onSnapshot(docRef, querySnapshot => setUsers(querySnapshot.data().users))
     return () => unsub()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const toggleFavorite = async () => {
@@ -32,7 +33,7 @@ const AdCard = ({ ad }) => {
     })
   }
 
-  console.log(users)
+  // console.log(users)
 
   return (
     <div className="card">
