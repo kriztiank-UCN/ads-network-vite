@@ -22,6 +22,7 @@ const Chat = () => {
   const [text, setText] = useState("");
   const [users, setUsers] = useState([]);
   const [msgs, setMsgs] = useState([]);
+  const [online, setOnline] = useState({});
 
   const location = useLocation();
 
@@ -39,11 +40,13 @@ const Chat = () => {
     const msgsRef = collection(db, "messages", id, "chat");
     const q = query(msgsRef, orderBy("createdAt", "asc"));
 
-    onSnapshot(q, (querySnapshot) => {
+    const unsub = onSnapshot(q, (querySnapshot) => {
       let msgs = [];
       querySnapshot.forEach((doc) => msgs.push(doc.data()));
       setMsgs(msgs);
     });
+
+    return () => unsub();
   };
 
   const getChat = async (ad) => {
@@ -60,6 +63,7 @@ const Chat = () => {
     const messages = msgsSnap.docs.map((doc) => doc.data());
 
     const users = [];
+    const unsubscribes = [];
     for (const message of messages) {
       const adRef = doc(db, "ads", message.ad);
       const meRef = doc(
@@ -82,8 +86,20 @@ const Chat = () => {
         me: meDoc.data(),
         other: otherDoc.data(),
       });
+
+      const unsub = onSnapshot(otherRef, (doc) => {
+        setOnline((prev) => ({
+          ...prev,
+          [doc.data().uid]: doc.data().isOnline,
+        }));
+      });
+      unsubscribes.push(unsub);
     }
     setUsers(users);
+
+    return () => {
+      unsubscribes.forEach((unsubcribe) => unsubcribe());
+    };
   };
 
   useEffect(() => {
@@ -118,7 +134,13 @@ const Chat = () => {
         style={{ borderRight: "1px solid #ddd" }}
       >
         {users.map((user, i) => (
-          <User key={i} user={user} selectUser={selectUser} chat={chat} />
+          <User
+            key={i}
+            user={user}
+            selectUser={selectUser}
+            chat={chat}
+            online={online}
+          />
         ))}
       </div>
       <div className="col-10 col-md-8 position-relative">
