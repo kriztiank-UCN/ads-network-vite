@@ -71,7 +71,7 @@ const Chat = () => {
                   </div>
                   <Link
                     className="btn btn-secondary btn-sm"
-                    to={`/${chat.ad.category.toLowerCase()}/${chat.ad.id}`}
+                    to={`/${chat.ad.category.toLowerCase()}/${chat.ad.adId}`}
                   >
                     View Ad
                   </Link>
