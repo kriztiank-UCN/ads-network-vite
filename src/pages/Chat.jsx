@@ -8,6 +8,7 @@ import {
   orderBy,
   query,
   Timestamp,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -45,6 +46,17 @@ const Chat = () => {
       querySnapshot.forEach((doc) => msgs.push(doc.data()));
       setMsgs(msgs);
     });
+
+    const docSnap = await getDoc(doc(db, "messages", id));
+    if (docSnap.exists()) {
+      if (docSnap.data().lastSender !== user1 && docSnap.data().lastUnread) {
+        {
+          await updateDoc(doc(db, "messages", id), {
+            lastUnread: false,
+          });
+        }
+      }
+    }
 
     return () => unsub();
   };
@@ -124,6 +136,12 @@ const Chat = () => {
       sender: user1,
       createdAt: Timestamp.fromDate(new Date()),
     });
+
+    await updateDoc(doc(db, "messages", chatId), {
+      lastText: text,
+      lastSender: user1,
+      lastUnread: true,
+    });
     setText("");
   };
 
@@ -140,6 +158,7 @@ const Chat = () => {
             selectUser={selectUser}
             chat={chat}
             online={online}
+            user1={user1}
           />
         ))}
       </div>
