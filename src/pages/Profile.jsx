@@ -78,7 +78,7 @@ const Profile = () => {
     const docs = await getDocs(q)
     let ads = []
     docs.forEach(doc => {
-      ads.push({ ...doc.data(), id: doc.id })
+      ads.push({ ...doc.data() })
     })
     setAds(ads)
   }
@@ -161,7 +161,7 @@ const Profile = () => {
         {ads.length ? <h4>Published Ads</h4> : <h4>There are no ads published by this user</h4>}
         <div className="row">
           {ads?.map(ad => (
-            <div key={ad.id} className="col-sm-6 col-md-4 mb-3">
+            <div key={ad.adId} className="col-sm-6 col-md-4 mb-3">
               <AdCard ad={ad} />
             </div>
           ))}

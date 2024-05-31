@@ -9,9 +9,9 @@ import Sold from "../components/Sold"
 // recieve ad as a prop from parent component and destructure it
 const AdCard = ({ ad }) => {
   // use useSnapshot custom hook
-  const { val } = useSnapshot("favorites", ad.id)
+  const { val } = useSnapshot("favorites", ad.adId)
   // create a dynamic link for each ad
-  const adLink = `/${ad.category.toLowerCase()}/${ad.id}`
+  const adLink = `/${ad.category.toLowerCase()}/${ad.adId}`
 
   return (
     <div className="card position-relative">
@@ -32,14 +32,14 @@ const AdCard = ({ ad }) => {
             // if the user has marked the ad as favorite, we will show a filled heart icon
             <AiFillHeart
               size={30}
-              onClick={() => toggleFavorite(val.users, ad.id)}
+              onClick={() => toggleFavorite(val.users, ad.adId)}
               className="text-danger"
             />
           ) : (
             // otherwise, we will show an outlined heart icon
             <AiOutlineHeart
               size={30}
-              onClick={() => toggleFavorite(val.users, ad.id)}
+              onClick={() => toggleFavorite(val.users, ad.adId)}
               className="text-danger"
             />
           )}

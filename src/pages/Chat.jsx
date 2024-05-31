@@ -1,14 +1,18 @@
-import { doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, Timestamp } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db, auth } from "../firebaseConfig";
 import { useLocation, Link } from "react-router-dom";
+import MessageForm from "../components/MessageForm";
 
 const Chat = () => {
   const [chat, setChat] = useState();
+  const [text, setText] = useState("");
   const location = useLocation();
 
+  const user1 = auth.currentUser.uid;
+
   const getChat = async (ad) => {
-    const buyer = await getDoc(doc(db, "users", auth.currentUser.uid));
+    const buyer = await getDoc(doc(db, "users", user1));
     const seller = await getDoc(doc(db, "users", ad.postedBy));
     setChat({ ad, me: buyer.data(), other: seller.data() });
   };
@@ -20,6 +24,23 @@ const Chat = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const user2 = chat.other.uid;
+    const chatId =
+      user1 > user2
+        ? `${user1}.${user2}.${chat.ad.adId}`
+        : `${user2}.${user1}.${chat.ad.adId}`;
+
+    await addDoc(collection(db, "messages", chatId, "chat"), {
+      text,
+      sender: user1,
+      createdAt: Timestamp.fromDate(new Date()),
+    });
+    setText("");
+  };
+
   console.log(chat);
   return (
     <div className="row">
@@ -27,7 +48,7 @@ const Chat = () => {
         className="col-2 col-md-4 users_container"
         style={{ borderRight: "1px solid #ddd" }}
       ></div>
-      <div className="col-10 col-md-8">
+      <div className="col-10 col-md-8 position-relative">
         {chat ? (
           <>
             <div
@@ -57,6 +78,11 @@ const Chat = () => {
                 </div>
               </div>
             </div>
+            <MessageForm
+              text={text}
+              setText={setText}
+              handleSubmit={handleSubmit}
+            />
           </>
         ) : (
           <div className="text-center mt-5">
