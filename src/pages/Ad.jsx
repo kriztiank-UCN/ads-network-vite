@@ -116,7 +116,7 @@ const Ad = () => {
                 >
                   <span className="carousel-control-next-icon" aria-hidden="true"></span>
                   <span className="visually-hidden">Next</span>
-                </button>
+                </button>r
               </div>
             ))}
           </div>
@@ -125,7 +125,7 @@ const Ad = () => {
           <div className="card">
             <div className="card-body">
               <div className="d-flex justify-content-between align-items-center">
-                <h5 className="card-title">PKR. {Number(ad.price).toLocaleString()}</h5>
+                <h5 className="card-title">DKR. {Number(ad.price).toLocaleString()}</h5>
                 {val?.users?.includes(auth.currentUser?.uid) ? (
                   <AiFillHeart
                     size={30}
