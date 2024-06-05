@@ -130,13 +130,13 @@ const Ad = () => {
                   <AiFillHeart
                     size={30}
                     onClick={() => toggleFavorite(val.users, id)}
-                    className="text-danger"
+                    className="text-danger cursor"
                   />
                 ) : (
                   <AiOutlineHeart
                     size={30}
                     onClick={() => toggleFavorite(val.users, id)}
-                    className="text-danger"
+                    className="text-danger cursor"
                   />
                 )}
               </div>
@@ -146,7 +146,7 @@ const Ad = () => {
                   {ad.location} - <small>{ad.publishedAt.toDate().toDateString()}</small>
                 </p>
                 {ad.postedBy === auth.currentUser?.uid && (
-                  <FaTrashAlt size={20} className="text-danger" onClick={deleteAd} />
+                  <FaTrashAlt size={20} className="text-danger cursor" onClick={deleteAd} />
                 )}
               </div>
             </div>
