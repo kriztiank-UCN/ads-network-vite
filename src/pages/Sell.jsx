@@ -33,6 +33,11 @@ const Sell = () => {
   // handle form submit
   const handleSubmit = async e => {
     e.preventDefault()
+    // validate fields
+    if (images.length === 0 || !title || !category || !price || !location || !contact || !description) {
+      setValues({ ...values, error: "Image upload and all fields are required" })
+      return
+    }
     // reset error message and set loading to true before form submission
     setValues({ ...values, error: "", loading: true })
 
@@ -55,7 +60,7 @@ const Sell = () => {
       // add data into firestore
       const result = await addDoc(collection(db, "ads"), {
         // We are assigning the imgs array to the images field, which is our state.
-        images: imgs || [],
+        images: imgs,
         title,
         category,
         price: Number(price),

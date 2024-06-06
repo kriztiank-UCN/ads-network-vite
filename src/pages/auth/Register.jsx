@@ -33,7 +33,7 @@ const Register = () => {
       setValues({ ...values, error: "Password must match" })
       return
     }
-    // clear error message and set loading to true
+    // reset error message and set loading to true before form submission
     setValues({ ...values, error: "", loading: true })
 
     try {
