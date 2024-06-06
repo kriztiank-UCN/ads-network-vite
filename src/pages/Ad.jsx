@@ -125,18 +125,18 @@ const Ad = () => {
           <div className="card">
             <div className="card-body">
               <div className="d-flex justify-content-between align-items-center">
-                <h5 className="card-title">PKR. {Number(ad.price).toLocaleString()}</h5>
+                <h5 className="card-title">DKR. {Number(ad.price).toLocaleString()}</h5>
                 {val?.users?.includes(auth.currentUser?.uid) ? (
                   <AiFillHeart
                     size={30}
                     onClick={() => toggleFavorite(val.users, id)}
-                    className="text-danger"
+                    className="text-danger cursor"
                   />
                 ) : (
                   <AiOutlineHeart
                     size={30}
                     onClick={() => toggleFavorite(val.users, id)}
-                    className="text-danger"
+                    className="text-danger cursor"
                   />
                 )}
               </div>
@@ -146,7 +146,7 @@ const Ad = () => {
                   {ad.location} - <small>{ad.publishedAt.toDate().toDateString()}</small>
                 </p>
                 {ad.postedBy === auth.currentUser?.uid && (
-                  <FaTrashAlt size={20} className="text-danger" onClick={deleteAd} />
+                  <FaTrashAlt size={20} className="text-danger cursor" onClick={deleteAd} />
                 )}
               </div>
             </div>

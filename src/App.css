@@ -8,6 +8,10 @@
   color: inherit;
 }
 
+.cursor {
+  cursor: pointer;
+}
+
 .users_container {
   height: 90vh;
 }
