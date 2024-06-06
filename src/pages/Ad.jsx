@@ -94,7 +94,7 @@ const Ad = () => {
                   src={image.url}
                   className="d-block w-100"
                   alt={ad.title}
-                  style={{ height: "500px" }}
+                  // style={{ height: "600px" }}
                 />
 
                 <button
