@@ -1,4 +1,5 @@
 import "./App.css"
+// react router
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Navbar from "./components/Navbar"
 import Register from "./pages/auth/Register"
