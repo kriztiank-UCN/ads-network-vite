@@ -16,7 +16,7 @@ import Chat from "./pages/Chat"
 function App() {
   return (
     <AuthProvider>
-      {/* AuthProvider children start */}
+      {/* AuthProvider children start YOYO*/}
       <BrowserRouter>
         <Navbar />
         <Routes>
