@@ -36,7 +36,6 @@ const Home = () => {
 
   useEffect(() => {
     getAds()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, sort])
 
   return (
