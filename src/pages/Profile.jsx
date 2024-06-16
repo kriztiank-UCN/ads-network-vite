@@ -98,16 +98,29 @@ const Profile = () => {
   // console.log(img)
   // console.log(ads)
 
+  // const deletePhoto = async () => {
+  //   const confirm = window.confirm("Delete photo permanently?")
+  //   if (confirm) {
+  //     await deleteObject(ref(storage, user.photoPath))
+  //     await updateDoc(doc(db, "users", auth.currentUser.uid), {
+  //       photoUrl: "",
+  //       photoPath: "",
+  //     })
+  //   }
+  // }
+
   const deletePhoto = async () => {
-    const confirm = window.confirm("Delete photo permanently?")
-    if (confirm) {
-      await deleteObject(ref(storage, user.photoPath))
-      await updateDoc(doc(db, "users", auth.currentUser.uid), {
-        photoUrl: "",
-        photoPath: "",
-      })
+    if (auth?.currentUser && auth.currentUser?.uid === id) {
+      const confirm = window.confirm("Delete photo permanently?");
+      if (confirm) {
+        await deleteObject(ref(storage, user.photoPath));
+        await updateDoc(doc(db, "users", auth.currentUser.uid), {
+          photoUrl: "",
+          photoPath: "",
+        });
+      }
     }
-  }
+  };
 
   // if user exists, display user info else return null
   return user ? (
